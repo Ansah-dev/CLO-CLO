@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clients – Clo-Clo Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admin.css"/>
+  <style>
+    .clients-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    .client-card { border-radius: 18px; overflow: hidden; box-shadow: 0 2px 14px rgba(0,0,0,0.07); }
+
+    .client-header {
+      background: var(--green);
+      padding: 22px 24px;
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .client-name { font-size: 1.3rem; font-weight: 900; color: white; margin-bottom: 4px; }
+    .client-id   { font-size: 0.82rem; color: rgba(255,255,255,0.75); font-weight: 600; margin-bottom: 14px; }
+    .client-stats { display: flex; gap: 10px; }
+    .cstat { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 8px 14px; text-align: center; }
+    .cstat-label { font-size: 0.7rem; color: rgba(255,255,255,0.75); font-weight: 600; }
+    .cstat-val   { font-size: 1rem; font-weight: 900; color: white; display: flex; align-items: center; gap: 4px; }
+    .cstat-val svg { width: 13px; height: 13px; fill: var(--yellow); }
+
+    .niveau-badge {
+      border-radius: 20px; padding: 6px 14px;
+      font-size: 0.85rem; font-weight: 800; display: flex; align-items: center; gap: 6px;
+      white-space: nowrap; height: fit-content;
+    }
+    .niveau-or      { background: #fef9c3; color: #d97706; }
+    .niveau-argent  { background: #f1f5f9; color: #64748b; }
+    .niveau-bronze  { background: #fff7ed; color: #c2410c; }
+    .niveau-platine { background: #f3e8ff; color: #7c3aed; }
+    .niveau-badge svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .client-body { background: white; padding: 20px 24px; }
+    .client-info { display: flex; align-items: center; gap: 9px; font-size: 0.88rem; font-weight: 600; color: var(--text-dark); margin-bottom: 8px; }
+    .client-info svg { width: 16px; height: 16px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .client-dates { display: flex; gap: 30px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #f3f4f6; }
+    .cdate-label { font-size: 0.75rem; color: var(--text-gray); font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }
+    .cdate-val   { font-size: 0.92rem; font-weight: 700; color: var(--text-dark); }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-logo">🍹</div><div><div class="sidebar-brand-name">Clo-Clo Admin</div><div class="sidebar-brand-sub">Espace Directeur</div></div></div>
+    <nav class="sidebar-nav">
+      <a href="admin-dashboard.html" class="nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Tableau de Bord</a>
+      <a href="admin-livraisons.html" class="nav-item"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Livraisons en Cours</a>
+      <a href="admin-historique.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Historique</a>
+      <a href="admin-clients.html" class="nav-item active"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Clients</a>
+      <a href="admin-livreurs.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Livreurs</a>
+    </nav>
+    <div class="sidebar-logout"><button class="btn-logout" onclick="window.location.href='connexion-directeur.html'"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</button></div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header anim">
+      <h1 class="page-title">Gestion des Clients</h1>
+      <p class="page-sub">Vue d'ensemble de tous les clients</p>
+    </div>
+
+    <!-- Stats niveaux -->
+    <div class="stats-grid stats-grid-5 anim">
+      <div class="stat-card"><div class="stat-label">Total Clients</div><div class="stat-value">5</div></div>
+      <div class="stat-card"><div class="stat-label">Bronze</div><div class="stat-value val-orange">1</div></div>
+      <div class="stat-card"><div class="stat-label">Argent</div><div class="stat-value" style="color:#64748b;">1</div></div>
+      <div class="stat-card"><div class="stat-label">Or</div><div class="stat-value val-yellow">2</div></div>
+      <div class="stat-card"><div class="stat-label">Platine</div><div class="stat-value val-purple">1</div></div>
+    </div>
+
+    <!-- Barre de recherche -->
+    <div class="card anim" style="padding:16px 20px;margin-bottom:20px;">
+      <div class="search-bar">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="client-search" placeholder="Rechercher un client par nom, email ou téléphone..."/>
+      </div>
+    </div>
+
+    <!-- Grille clients -->
+    <div class="clients-grid" id="clients-grid">
+
+      <!-- Marie Kambale -->
+      <div class="client-card anim">
+        <div class="client-header">
+          <div>
+            <div class="client-name">Marie Kambale</div>
+            <div class="client-id">CLT-001</div>
+            <div class="client-stats">
+              <div class="cstat"><div class="cstat-label">Points</div><div class="cstat-val"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>350</div></div>
+              <div class="cstat"><div class="cstat-label">Commandes</div><div class="cstat-val">24</div></div>
+              <div class="cstat"><div class="cstat-label">Total Dépensé</div><div class="cstat-val">285K FC</div></div>
+            </div>
+          </div>
+          <div class="niveau-badge niveau-or"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Or</div>
+        </div>
+        <div class="client-body">
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>marie.kambale@email.com</div>
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07"/></svg>+243 987 654 321</div>
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>456 Avenue Kasa-Vubu, Kinshasa</div>
+          <div class="client-dates">
+            <div><div class="cdate-label">Membre depuis</div><div class="cdate-val">10 Jan 2026</div></div>
+            <div><div class="cdate-label">Dernière commande</div><div class="cdate-val">15 Mars 2026</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pierre Kabongo -->
+      <div class="client-card anim">
+        <div class="client-header">
+          <div>
+            <div class="client-name">Pierre Kabongo</div>
+            <div class="client-id">CLT-002</div>
+            <div class="client-stats">
+              <div class="cstat"><div class="cstat-label">Points</div><div class="cstat-val"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>180</div></div>
+              <div class="cstat"><div class="cstat-label">Commandes</div><div class="cstat-val">15</div></div>
+              <div class="cstat"><div class="cstat-label">Total Dépensé</div><div class="cstat-val">165K FC</div></div>
+            </div>
+          </div>
+          <div class="niveau-badge niveau-argent"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Argent</div>
+        </div>
+        <div class="client-body">
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12"/></svg>pierre.k@email.com</div>
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2"/></svg>+243 456 789 123</div>
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>123 Boulevard Lumumba, Kinshasa</div>
+          <div class="client-dates">
+            <div><div class="cdate-label">Membre depuis</div><div class="cdate-val">25 Jan 2026</div></div>
+            <div><div class="cdate-label">Dernière commande</div><div class="cdate-val">14 Mars 2026</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sophie Laurent -->
+      <div class="client-card anim">
+        <div class="client-header">
+          <div>
+            <div class="client-name">Sophie Laurent</div>
+            <div class="client-id">CLT-003</div>
+            <div class="client-stats">
+              <div class="cstat"><div class="cstat-label">Points</div><div class="cstat-val"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>520</div></div>
+              <div class="cstat"><div class="cstat-label">Commandes</div><div class="cstat-val">32</div></div>
+              <div class="cstat"><div class="cstat-label">Total Dépensé</div><div class="cstat-val">380K FC</div></div>
+            </div>
+          </div>
+          <div class="niveau-badge niveau-or"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Or</div>
+        </div>
+        <div class="client-body">
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12"/></svg>sophie.laurent@email.com</div>
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2"/></svg>+243 321 456 789</div>
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>78 Avenue Victoire, Kinshasa</div>
+          <div class="client-dates">
+            <div><div class="cdate-label">Membre depuis</div><div class="cdate-val">5 Déc 2025</div></div>
+            <div><div class="cdate-label">Dernière commande</div><div class="cdate-val">15 Mars 2026</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Jean Mukendi -->
+      <div class="client-card anim">
+        <div class="client-header">
+          <div>
+            <div class="client-name">Jean Mukendi</div>
+            <div class="client-id">CLT-004</div>
+            <div class="client-stats">
+              <div class="cstat"><div class="cstat-label">Points</div><div class="cstat-val"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>95</div></div>
+              <div class="cstat"><div class="cstat-label">Commandes</div><div class="cstat-val">8</div></div>
+              <div class="cstat"><div class="cstat-label">Total Dépensé</div><div class="cstat-val">87K FC</div></div>
+            </div>
+          </div>
+          <div class="niveau-badge niveau-bronze"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Bronze</div>
+        </div>
+        <div class="client-body">
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12"/></svg>jean.m@email.com</div>
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2"/></svg>+243 654 321 987</div>
+          <div class="client-info"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>34 Rue Kasai, Kinshasa</div>
+          <div class="client-dates">
+            <div><div class="cdate-label">Membre depuis</div><div class="cdate-val">10 Fév 2026</div></div>
+            <div><div class="cdate-label">Dernière commande</div><div class="cdate-val">12 Mars 2026</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>
