@@ -1,10 +1,10 @@
 nohup: ignoring input
 
 > clo-clo@0.0.0 dev
-> vite --host
+> vite --host --port 5173
 
 
-  VITE v5.4.21  ready in 393 ms
+  VITE v5.4.21  ready in 334 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: http://192.168.129.3:5173/
