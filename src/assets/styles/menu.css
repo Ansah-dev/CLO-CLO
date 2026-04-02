@@ -1,0 +1,216 @@
+/* ============================================================
+   CLO-CLO – Menu Page Scoped Styles
+   ============================================================ */
+
+/* ── EN-TÊTE DU MENU ── */
+.menu-header {
+  background: white;
+  text-align: center;
+  padding: 50px 80px 40px;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-title {
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.menu-sub {
+  font-size: 1rem;
+  color: var(--text-gray);
+  font-weight: 500;
+  margin-bottom: 32px;
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+
+/* ── Filtres ── */
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.5s 0.2s ease both;
+}
+
+.filter-btn {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 50px;
+  padding: 9px 22px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-gray);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.filter-btn.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.35);
+}
+
+/* ── GRILLE DES PRODUITS (Menu page specific) ── */
+.menu-section {
+  padding: 40px 80px 60px;
+}
+
+.menu-section .products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* ── Carte produit enhancements for Menu ── */
+.menu-section .product-card {
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.menu-section .product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.menu-section .product-card.hidden {
+  display: none;
+}
+
+.menu-section .product-img-wrap {
+  overflow: hidden;
+}
+
+.menu-section .product-img-wrap img {
+  height: 210px;
+  transition: transform 0.4s;
+}
+
+.menu-section .product-card:hover .product-img-wrap img {
+  transform: scale(1.05);
+}
+
+/* Badge "Populaire" */
+.badge-popular {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--yellow);
+  color: #1a1a1a;
+  font-weight: 800;
+  font-size: 0.78rem;
+  padding: 4px 12px;
+  border-radius: 30px;
+}
+
+/* ── Product description (menu) ── */
+.menu-section .product-desc {
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* ── Bouton Ajouter ── */
+.btn-add {
+  width: 100%;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 0;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn-add svg {
+  width: 18px;
+  height: 18px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.btn-add:hover {
+  background: var(--green-dark);
+  transform: scale(1.02);
+}
+
+.btn-add:active {
+  transform: scale(0.98);
+}
+
+/* ── Message aucun résultat ── */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-gray);
+}
+
+.no-results span {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.no-results p {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ── Responsive Menu ── */
+@media (max-width: 1024px) {
+  .menu-section .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-header {
+    padding: 36px 24px 28px;
+  }
+
+  .menu-title {
+    font-size: 2rem;
+  }
+
+  .menu-section {
+    padding: 28px 24px 50px;
+  }
+
+  .menu-section .products-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-section .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filters {
+    gap: 8px;
+  }
+
+  .filter-btn {
+    padding: 8px 16px;
+    font-size: 0.88rem;
+  }
+}

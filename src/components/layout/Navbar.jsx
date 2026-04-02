@@ -1,7 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Navbar() {
+  const location = useLocation();
+  const path = location.pathname;
+
   return (
     <nav>
       <Link to="/" className="nav-brand">
@@ -14,7 +17,7 @@ export default function Navbar() {
 
       <ul className="nav-links">
         <li>
-          <Link to="/">
+          <Link to="/" className={path === '/' ? 'active' : ''}>
             <svg viewBox="0 0 24 24">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
               <polyline points="9 22 9 12 15 12 15 22"/>
@@ -23,23 +26,23 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
-          <a href="/menu.html">
+          <Link to="/menu" className={path === '/menu' ? 'active' : ''}>
             <svg viewBox="0 0 24 24">
               <line x1="3" y1="12" x2="21" y2="12"/>
               <line x1="3" y1="6"  x2="21" y2="6"/>
               <line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
             Menu
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/suivie.html">
+          <Link to="/suivi" className={path === '/suivi' ? 'active' : ''}>
             <svg viewBox="0 0 24 24">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
               <circle cx="12" cy="10" r="3"/>
             </svg>
             Suivi
-          </a>
+          </Link>
         </li>
       </ul>
 
@@ -60,13 +63,13 @@ export default function Navbar() {
           <span className="cart-badge">3</span>
         </button>
 
-        <button className="btn-profile">
+        <Link to="/profil" className="btn-profile" style={{ textDecoration: 'none' }}>
           <svg viewBox="0 0 24 24">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
             <circle cx="12" cy="7" r="4"/>
           </svg>
           Profil
-        </button>
+        </Link>
       </div>
     </nav>
   );

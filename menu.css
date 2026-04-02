@@ -3,19 +3,21 @@
    ============================================================ */
 
 /* ── Variables globales ── */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 :root {
-  --green:          #22c55e;
-  --green-dark:     #16a34a;
-  --yellow:         #facc15;
-  --text-dark:      #1a1a2e;
-  --text-gray:      #6b7280;
-  --bg-light:       #f9f9f9;
+  --green: #22c55e;
+  --green-dark: #16a34a;
+  --yellow: #facc15;
+  --text-dark: #1a1a2e;
+  --text-gray: #6b7280;
+  --bg-light: #f9f9f9;
 }
 
 body {
@@ -494,6 +496,7 @@ hr.divider {
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
