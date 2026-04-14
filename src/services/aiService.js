@@ -1,20 +1,55 @@
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GEMINI_API_KEY } from '../config/secrets';
+
 /* =====================================================================
-   AI Chat Service (Mock/Simulated)
-   Description: This service intercepts user messages and simulates
-   intelligent responses based on basic NLP keywords. 
-   
-   TODO: Replace with actual OpenAI or Anthropic API integration.
+   AI Chat Service (Gemini Integration + Mock Fallback)
+   Description: This service intercepts user messages and sends them to Gemini 
+   using a hardcoded key. If no key is set yet, it falls back to a mock. 
 ===================================================================== */
 
+const SYSTEM_PROMPT = `You are the 'Smart Concierge' for a fast-food and drink restaurant called 'CLO-CLO'.
+Your tone is incredibly friendly, enthusiastic, highly polite, and uses emojis appropriately.
+Your primary goal is to help customers, recommend menu items, and upsell the Tropical Smoothie.
+Key Information:
+- Tropical Smoothie (Mango, Pineapple, Passionfruit) costs 3,500 FC. It's refreshing for warm weather.
+- We have a variety of fast food.
+Keep your answers brief and concise. Under 4 sentences. If they want to order, tell them to use the Cart icon.`;
+
 export const sendToAi = async (messageText, history) => {
-  // Simulate network latency (between 1s to 2.5s)
-  const delay = Math.floor(Math.random() * 1500) + 1000;
-  
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(generateMockResponse(messageText, history));
-    }, delay);
-  });
+  if (!GEMINI_API_KEY || GEMINI_API_KEY === "YOUR_API_KEY_HERE") {
+    // Fallback to Mock
+    const delay = Math.floor(Math.random() * 1500) + 1000;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(generateMockResponse(messageText, history));
+      }, delay);
+    });
+  }
+
+  try {
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      systemInstruction: SYSTEM_PROMPT
+    });
+
+    // Format history for Gemini. 
+    // We only pass previous roles (user/model)
+    const formattedHistory = history.map(h => ({
+      role: h.role === 'ai' ? 'model' : 'user',
+      parts: [{ text: h.content }]
+    }));
+
+    const chatSession = model.startChat({
+      history: formattedHistory,
+    });
+
+    const result = await chatSession.sendMessage([{text: messageText}]);
+    return result.response.text();
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+    return "Oops! 😅 I'm having a little trouble connecting right now. Please try again in a moment!";
+  }
 };
 
 function generateMockResponse(msg, history) {
@@ -22,11 +57,11 @@ function generateMockResponse(msg, history) {
 
   // Basic NLP rules to mimic intelligence
   if (text.includes("hello") || text.includes("bonjour") || text.includes("salut")) {
-    return "Bonjour ! 👋 I'm your Clo-Clo Smart Concierge. How can I refresh your day? You can ask me for recommendations or help with your order.";
+    return "Bonjour ! 👋 I'm your Clo-Clo Smart Concierge (Mock Mode). How can I refresh your day?";
   }
   
   if (text.includes("menu") || text.includes("carte") || text.includes("recommendation") || text.includes("recommande")) {
-    return "We have an amazing selection today! 🔥 Since it's quite warm, I highly recommend our **Smoothie Tropical** (Mango, Pineapple, Passionfruit) for 3,500 FC. Would you like me to add it to your order?";
+    return "We have an amazing selection today! 🔥 Since it's quite warm, I highly recommend our **Smoothie Tropical** for 3,500 FC. Would you like me to add it to your order?";
   }
 
   if (text.includes("smoothie") || text.includes("jus")) {
@@ -45,6 +80,5 @@ function generateMockResponse(msg, history) {
     return "You're very welcome! Let me know if there's anything else I can do for you. Enjoy your Clo-Clo! ❤️";
   }
 
-  // Fallback
-  return "That sounds delicious! 😋 I'm still learning, but if you want to order something, just tell me what you're craving (like 'I want a tropical smoothie') and I'll help you out!";
+  return "That sounds delicious! 😋 (Placeholder mock response pending real API key).";
 }

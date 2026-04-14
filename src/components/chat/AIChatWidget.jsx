@@ -58,7 +58,7 @@ export default function AIChatWidget() {
           {messages.map((msg, idx) => (
             <div key={idx} className={`msg-wrapper msg-${msg.role}`}>
               <div className="msg-bubble">
-                {msg.content}
+                {msg.content.split('**').map((chunk, i) => i % 2 === 1 ? <strong key={i}>{chunk}</strong> : chunk)}
               </div>
             </div>
           ))}
@@ -73,6 +73,14 @@ export default function AIChatWidget() {
           )}
           <div ref={messagesEndRef} />
         </div>
+
+        {isOpen && (
+          <div className="chat-chips-container">
+            <button type="button" className="chat-chip" onClick={() => setInputValue("Qu'est-ce que tu recommandes ?")}>Recommandation</button>
+            <button type="button" className="chat-chip" onClick={() => setInputValue("Où est ma livraison ?")}>Suivi Commande</button>
+            <button type="button" className="chat-chip" onClick={() => setInputValue("Je veux un Smoothie Tropical")}>Smoothie Tropical</button>
+          </div>
+        )}
 
         <form className="chat-input-area" onSubmit={handleSend}>
           <input

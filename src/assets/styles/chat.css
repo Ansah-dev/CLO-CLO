@@ -11,7 +11,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  pointer-events: none; /* Let clicks pass through empty areas */
+  pointer-events: none;
+  /* Let clicks pass through empty areas */
 }
 
 /* ──────── FLOAT BUTTON ──────── */
@@ -51,18 +52,18 @@
 .chat-window {
   width: 360px;
   height: 520px;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.561);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 5px 15px rgba(0,0,0,0.06);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 5px 15px rgba(0, 0, 0, 0.06);
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   pointer-events: auto;
-  
+
   /* Initial State for Animation */
   opacity: 0;
   transform: translateY(30px) scale(0.95);
@@ -76,16 +77,16 @@
 }
 
 .chat-header {
-  background: linear-gradient(90deg, var(--green), #059669);
+  background: linear-gradient(90deg, var(--green), #05962964);
   padding: 20px;
   display: flex;
   align-items: center;
   gap: 12px;
-  color: white;
+  color: rgba(255, 255, 255, 0.786);
 }
 
 .chat-header-icon {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   width: 42px;
   height: 42px;
   border-radius: 50%;
@@ -109,7 +110,7 @@
 .chat-header-sub {
   font-size: 0.75rem;
   font-weight: 600;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -162,7 +163,7 @@
   background: white;
   color: var(--text-dark);
   border-radius: 18px 18px 18px 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid #f3f4f6;
 }
 
@@ -180,6 +181,7 @@
   gap: 4px;
   padding: 8px 12px;
 }
+
 .typing-dot {
   width: 6px;
   height: 6px;
@@ -187,18 +189,42 @@
   border-radius: 50%;
   animation: typingBounce 1.4s infinite ease-in-out both;
 }
-.typing-dot:nth-child(1) { animation-delay: -0.32s; }
-.typing-dot:nth-child(2) { animation-delay: -0.16s; }
-.typing-dot:nth-child(3) { animation-delay: 0; }
+
+.typing-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0;
+}
 
 @keyframes typingBounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
+
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+
+  40% {
+    transform: scale(1);
+  }
 }
 
 @keyframes slideUpFade {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ──────── INPUT FIX ──────── */
@@ -259,4 +285,39 @@
   height: 18px;
   fill: currentColor;
   transform: translateX(-1px);
+}
+
+/* ──────── CHIPS FOR QUICK ACTION ──────── */
+.chat-chips-container {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+  overflow-x: auto;
+  background: white;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 12px;
+}
+
+.chat-chips-container::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-chip {
+  background: rgba(22, 163, 74, 0.1);
+  color: var(--green);
+  border: 1px solid rgba(22, 163, 74, 0.2);
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.chat-chip:hover {
+  background: var(--green);
+  color: white;
+  transform: translateY(-2px);
 }
