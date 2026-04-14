@@ -1,5 +1,48 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
+
+function AdminAIPanel() {
+  const [autoDispatch, setAutoDispatch] = useState(false);
+
+  return (
+    <div className="card anim" style={{ marginBottom: '24px', background: 'linear-gradient(135deg, #f8fafc, #eff6ff)', border: '1px solid #bfdbfe' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ background: 'var(--green)', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.1rem' }}>🤖</div>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b' }}>Clo-Clo Business Advisor</h2>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: autoDispatch ? 'var(--green)' : '#64748b' }}>
+            {autoDispatch ? 'Auto-Dispatch Actif' : 'Auto-Dispatch Inactif'}
+          </span>
+          <button 
+            onClick={() => setAutoDispatch(!autoDispatch)}
+            style={{ 
+              width: '46px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
+              background: autoDispatch ? 'var(--green)' : '#cbd5e1', position: 'relative', transition: '0.3s'
+            }}>
+            <div style={{ 
+              width: '20px', height: '20px', borderRadius: '50%', background: 'white', position: 'absolute', top: '2px', 
+              left: autoDispatch ? '24px' : '2px', transition: 'left 0.3s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' 
+            }}></div>
+          </button>
+        </div>
+      </div>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div style={{ background: 'white', padding: '16px', borderRadius: '12px', borderLeft: '4px solid #f59e0b', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#f59e0b', textTransform: 'uppercase', marginBottom: '6px' }}>Prédiction Météo ☀️</div>
+          <div style={{ fontSize: '0.9rem', color: '#334155', fontWeight: 600 }}>La canicule prévue ce week-end devrait augmenter les ventes de Smoothies de <span style={{ color: '#ef4444', fontWeight: 800 }}>+40%</span>. Pensez à réassortir les fruits tropicaux et les glaçons.</div>
+        </div>
+        
+        <div style={{ background: 'white', padding: '16px', borderRadius: '12px', borderLeft: '4px solid #3b82f6', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#3b82f6', textTransform: 'uppercase', marginBottom: '6px' }}>Analyse Flotte 🚚</div>
+          <div style={{ fontSize: '0.9rem', color: '#334155', fontWeight: 600 }}>Jean Mukendi est le plus proche des 3 prochaines commandes de Gombe. {autoDispatch ? <strong>Assignation automatique effectuée.</strong> : <strong>Activez l'Auto-Dispatch pour gagner du temps.</strong>}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const chartVentesRef = useRef(null);
@@ -73,6 +116,8 @@ export default function AdminDashboard() {
         <h1 className="page-title">Tableau de Bord</h1>
         <p className="page-sub">Vue d'ensemble des opérations</p>
       </div>
+
+      <AdminAIPanel />
 
       <div className="stats-grid stats-grid-4 anim">
         <div className="stat-card">

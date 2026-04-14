@@ -1,0 +1,15 @@
+
+> clo-clo@0.0.0 build
+> vite build
+
+vite v5.4.21 building for production...
+<script src="/src/utils/app-data.js"> in "/index.html" can't be bundled without type="module" attribute
+<script src="/src/utils/app.js"> in "/index.html" can't be bundled without type="module" attribute
+transforming...
+✓ 69 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.67 kB │ gzip:   0.42 kB
+dist/assets/index-BdkNsFcH.css   61.22 kB │ gzip:  10.04 kB
+dist/assets/index-DOzbPNtN.js   478.84 kB │ gzip: 145.75 kB
+✓ built in 4.37s

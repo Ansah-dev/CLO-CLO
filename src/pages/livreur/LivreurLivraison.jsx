@@ -1,6 +1,66 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 
 export default function LivreurLivraison() {
+  const [isListening, setIsListening] = useState(false);
+  const [transcript, setTranscript] = useState('');
+  const recognitionRef = useRef(null);
+
+  // Initialize Speech Recognition
+  const initSpeechRecognition = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Votre navigateur ne supporte pas la reconnaissance vocale.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'fr-FR';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+      setTranscript('Écoute en cours...');
+    };
+
+    recognition.onresult = (event) => {
+      const speechToText = event.results[0][0].transcript;
+      setTranscript(speechToText);
+      handleVoiceCommand(speechToText.toLowerCase());
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error", event.error);
+      setIsListening(false);
+      setTranscript('Erreur: ' + event.error);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+      setTimeout(() => setTranscript(''), 3000); 
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+  };
+
+  const speakResponse = (text) => {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = 'fr-FR';
+    window.speechSynthesis.speak(speech);
+  };
+
+  const handleVoiceCommand = (command) => {
+    if (command.includes('prochain') || command.includes('arrêt') || command.includes('destination')) {
+      speakResponse("Votre prochain arrêt est à 456 Avenue Kasa-Vubu. C'est pour la commande de Marie Kambale.");
+    } else if (command.includes('appeler') || command.includes('client')) {
+      speakResponse("J'appelle Marie Kambale au +243 987 654 321.");
+      // In a real app, this would trigger window.open('tel:...')
+    } else {
+      speakResponse("Je n'ai pas bien compris. Vous pouvez me demander votre prochaine destination.");
+    }
+  };
+
   return (
     <>
       <div className="page-header">
@@ -105,6 +165,32 @@ export default function LivreurLivraison() {
           </div>
         </div>
       </div>
+
+      {/* Voice Copilot UI Overlay */}
+      {transcript && (
+        <div style={{ position: 'fixed', bottom: '100px', right: '30px', background: 'rgba(0,0,0,0.8)', color: 'white', padding: '12px 20px', borderRadius: '12px', zIndex: 1000, maxWidth: '250px', backdropFilter: 'blur(8px)', animation: 'slideUpFade 0.3s' }}>
+          <div style={{ fontSize: '0.8rem', color: '#cbd5e1', marginBottom: '4px' }}>🎙️ Copilot vous a entendu :</div>
+          <div style={{ fontWeight: 600 }}>"{transcript}"</div>
+        </div>
+      )}
+
+      {/* Floating Microphone Button */}
+      <button 
+        onClick={initSpeechRecognition}
+        style={{
+          position: 'fixed', bottom: '30px', right: '30px', width: '64px', height: '64px', borderRadius: '50%',
+          border: 'none', background: isListening ? '#ef4444' : 'var(--blue)', color: 'white', cursor: 'pointer',
+          boxShadow: isListening ? '0 0 0 8px rgba(239, 68, 68, 0.3)' : '0 10px 25px rgba(59, 130, 246, 0.4)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999, transition: '0.3s'
+        }}>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+      </button>
+
     </>
   );
 }

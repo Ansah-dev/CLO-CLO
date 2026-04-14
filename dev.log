@@ -1,0 +1,13 @@
+nohup: ignoring input
+
+> clo-clo@0.0.0 dev
+> vite --host
+
+
+  VITE v5.4.21  ready in 510 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://192.168.65.189:5173/
+10:07:46 PM [vite] page reload index.html
+1:14:07 PM [vite] hmr update /src/pages/admin/AdminDashboard.jsx
+1:14:43 PM [vite] hmr update /src/pages/livreur/LivreurLivraison.jsx
